@@ -2,43 +2,74 @@
 #include "sort.h"
 using namespace std;
 
+void display(int arr[], int n) {
+    for (int i = 0; i < n; i++) cout << arr[i] << " ";
+    cout << endl;
+}
+
 int main() {
     int n;
-    cout << "Enter number of elements: ";
+    cout << "Enter number of products: ";
     cin >> n;
 
-    vector<int> arr(n);
-    cout << "Enter elements: ";
-    for(int i=0; i<n; i++) cin >> arr[i];
+    int arr[n];
+    cout << "Enter product prices: ";
+    for (int i = 0; i < n; i++) cin >> arr[i];
 
-    cout << "Dataset size large? (1=Yes, 0=No): ";
-    int large; cin >> large;
+    cout << "\nOriginal Product Prices: ";
+    display(arr, n);
 
-    if(!large) {
-        cout << "Using Bubble/Selection/Insertion Sort (small dataset)." << endl;
-        insertionSort(arr); // simplest choice for small
-    } else {
-        cout << "Nature of input? (1=Sorted, 2=Random/Reverse): ";
-        int nature; cin >> nature;
+    // Flowchart decision logic
+    if (n <= 20) {  
+        cout << "\nDataset is SMALL → Using Insertion Sort." << endl;
+        insertion(arr, n);
+    } 
+    else {
+        cout << "\nDataset is LARGE." << endl;
+        cout << "Nature of input? (1 = Already Sorted, 2 = Random/Reverse): ";
+        int nature; 
+        cin >> nature;
 
-        if(nature == 1) {
+        if (nature == 1) {
             cout << "Using Insertion Sort (efficient for sorted input)." << endl;
-            insertionSort(arr);
-        } else {
-            cout << "Is stability required? (1=Yes, 0=No): ";
-            int stable; cin >> stable;
+            insertion(arr, n);
+        } 
+        else {
+            cout << "Is stability required? (1 = Yes, 0 = No): ";
+            int stable; 
+            cin >> stable;
 
-            if(stable) {
+            if (stable) {
                 cout << "Using Merge Sort (stable)." << endl;
-                mergeSort(arr, 0, n-1);
-            } else {
+                merge(arr, n, 0, n - 1);
+                display(arr, n);
+            } 
+            else {
                 cout << "Using Quick Sort (fast)." << endl;
-                quickSort(arr, 0, n-1);
+                quicksort(arr, 0, n - 1);
+                display(arr, n);
             }
         }
     }
 
-    cout << "Sorted array: ";
-    printArray(arr);
+    cout << "\nSorted Product Prices: ";
+    display(arr, n);
+
+    // Searching feature
+    int target;
+    cout << "\nEnter a product price to search: ";
+    cin >> target;
+
+    cout << "Search Method? (1 = Linear, 2 = Binary): ";
+    int searchChoice; 
+    cin >> searchChoice;
+
+    if (searchChoice == 1) 
+        linear(arr, n, target);
+    else if (searchChoice == 2) 
+        binary(arr, 0, n - 1, target);
+    else 
+        cout << "Invalid search choice!" << endl;
+
     return 0;
 }
