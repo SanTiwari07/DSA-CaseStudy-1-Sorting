@@ -68,25 +68,25 @@ An e-commerce platform needs to sort large volumes of product listings based on 
 ---
 
 ## Chosen Algorithm
-**Merge Sort (via `stable_sort`)** was selected for large-scale e-commerce sorting because:  
-- Provides **predictable performance** (`O(n log n)`), even for sorted or reverse-sorted data.  
-- **Stable sort**, preserving relative order (important for multi-level sorting).  
-- Slight trade-off in memory usage is justified by **reliability and user experience**.  
+**Hybrid Approach for Large Datasets:**  
+- **Small datasets (≤20) or stability required** → `stable_sort` (Merge Sort).  
+- **Large datasets (>20) without stability requirement** → `sort` (IntroSort: hybrid of QuickSort, HeapSort, and Insertion Sort).  
+- This ensures **fast, in-place sorting** for big datasets while maintaining stability when necessary.  
 
-**Real-world Example:** During **Flipkart’s Big Billion Day**, Merge Sort ensures responsiveness while sorting millions of product listings by price.
+**Real-world Example:** During Flipkart’s Big Billion Day, millions of product listings are sorted efficiently using **stable_sort** or **sort** depending on dataset size and stability requirements.
 
 ---
 
 ## Decision Logic
-1. **Dataset size**:  
-   - Small (≤20) → `stable_sort`  
-   - Large (>20) → Check stability requirement:  
-     - Stability required → `stable_sort`  
-     - Stability not required → `sort`  
+1. **Dataset size ≤20** → `stable_sort`  
+2. **Dataset size >20**:  
+   - **Stability required?**  
+     - Yes → `stable_sort` (Merge Sort)  
+     - No → `sort` (IntroSort, hybrid)  
 
-2. **Display sorted product prices**  
+3. **Display sorted product prices**  
 
-3. **Search for product price**:  
+4. **Search for product price**:  
    - Linear search (`find`) for unsorted data  
    - Binary search (`lower_bound`) for sorted data  
 
