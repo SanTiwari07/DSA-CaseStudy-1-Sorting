@@ -21,36 +21,79 @@ An e-commerce platform needs to sort large volumes of product listings based on 
 - **Merge Sort** → Stable, guaranteed `O(n log n)`, requires extra memory.  
 - **Quick Sort** → Fast on average (`O(n log n)`), in-place, pivot-dependent.  
 
-**Note:** In the implemented program, **modern C++ STL algorithms** are used for reliability and efficiency.
+**Note:** The program uses **modern C++ STL algorithms** for efficient, safe, and reliable implementation.
 
 ---
 
-## Chosen Algorithms in Code
-- **`stable_sort`** → Used for **small datasets (≤20)** or when stability is required.  
-- **`sort`** → Used for **large datasets (>20)** when speed is prioritized.  
-- **`find`** → Performs linear search on unsorted arrays (O(n)).  
-- **`lower_bound`** → Performs binary search on sorted arrays (O(log n)).  
-- **`vector<int>`** → Dynamic array for flexible storage of product prices.  
+## STL Features Used in Code
+
+### 1. `vector<int>`  
+- **Dynamic Array**: Automatically resizes based on the number of products.  
+- **Advantages**: Safe memory management, easy iteration, works with STL algorithms.  
+- **Usage**: Stores product prices for sorting and searching.
+
+### 2. `stable_sort`  
+- **Algorithm**: Merge Sort-based STL algorithm.  
+- **Properties**:  
+  - **Stable** → Maintains relative order of equal elements.  
+  - **Time Complexity** → O(n log n)  
+  - **Memory Usage** → Requires extra memory.  
+- **Usage**:  
+  - Small datasets (≤20)  
+  - When stability is required (e.g., sorting by price while preserving rating order)
+
+### 3. `sort`  
+- **Algorithm**: IntroSort (QuickSort + HeapSort + Insertion Sort).  
+- **Properties**:  
+  - **Fast and in-place** → No extra memory needed.  
+  - **Not stable** → Equal elements may change order.  
+  - **Time Complexity** → O(n log n) average.  
+- **Usage**: Large datasets where **speed is prioritized** and stability is not required.
+
+### 4. `find`  
+- **Search Algorithm**: Linear search.  
+- **Properties**:  
+  - **Time Complexity** → O(n)  
+  - Works on unsorted data.  
+- **Usage**: Search a product price in unsorted vector.
+
+### 5. `lower_bound`  
+- **Search Algorithm**: Binary search on sorted containers.  
+- **Properties**:  
+  - **Time Complexity** → O(log n)  
+  - Returns the **first element ≥ target**  
+  - Requires **sorted input**.  
+- **Usage**: Efficiently locate a product price in sorted vector.
+
+---
+
+## Chosen Algorithm
+**Merge Sort (via `stable_sort`)** was selected for large-scale e-commerce sorting because:  
+- Provides **predictable performance** (`O(n log n)`), even for sorted or reverse-sorted data.  
+- **Stable sort**, preserving relative order (important for multi-level sorting).  
+- Slight trade-off in memory usage is justified by **reliability and user experience**.  
+
+**Real-world Example:** During **Flipkart’s Big Billion Day**, Merge Sort ensures responsiveness while sorting millions of product listings by price.
 
 ---
 
 ## Decision Logic
-1. **Check dataset size**:  
+1. **Dataset size**:  
    - Small (≤20) → `stable_sort`  
    - Large (>20) → Check stability requirement:  
      - Stability required → `stable_sort`  
      - Stability not required → `sort`  
 
-2. **Display sorted product prices.**  
+2. **Display sorted product prices**  
 
-3. **Search for a product price**:  
-   - Linear search (`find`) for unsorted data.  
-   - Binary search (`lower_bound`) for sorted data.  
+3. **Search for product price**:  
+   - Linear search (`find`) for unsorted data  
+   - Binary search (`lower_bound`) for sorted data  
 
 ---
 
 ## How to Run the Code
 
-### 1. Compile
+### Compile
 ```bash
 g++ main.cpp -o sort
