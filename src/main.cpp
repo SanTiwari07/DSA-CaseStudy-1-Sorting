@@ -2,49 +2,43 @@
 #include "sort.h"
 using namespace std;
 
-void initialise(int arr[], int n) {
-    for (int a = 0; a < n; a++) {
-        cout << "Enter " << a + 1 << " element: ";
-        cin >> arr[a];
-    }
-}
-void display(int arr[], int n) {
-    for (int a = 0; a < n; a++) {
-        cout << arr[a] << " ";
-    }
-    cout << endl;
-}
-
 int main() {
-    int size;
-    cout << "Enter size: ";
-    cin >> size;
-    int arr[size];
+    int n;
+    cout << "Enter number of elements: ";
+    cin >> n;
 
-    initialise(arr, size);
-    display(arr, size);
+    vector<int> arr(n);
+    cout << "Enter elements: ";
+    for(int i=0; i<n; i++) cin >> arr[i];
 
-    int choice;
-    cout << "Enter\n1. Insertion\n2. Selection\n3. BubbleSort\n4. MergeSort\n5. Quick Sort\nChoice: ";
-    cin >> choice;
+    cout << "Dataset size large? (1=Yes, 0=No): ";
+    int large; cin >> large;
 
-    switch (choice) {
-        case 1: insertion(arr, size); break;
-        case 2: selection(arr, size); break;
-        case 3: bubblesort(arr, size); break;
-        case 4: merge(arr, size, 0, size - 1); display(arr, size); break;
-        case 5: quicksort(arr, 0, size - 1); display(arr, size); break;
-        default: cout << "Invalid choice!" << endl;
+    if(!large) {
+        cout << "Using Bubble/Selection/Insertion Sort (small dataset)." << endl;
+        insertionSort(arr); // simplest choice for small
+    } else {
+        cout << "Nature of input? (1=Sorted, 2=Random/Reverse): ";
+        int nature; cin >> nature;
+
+        if(nature == 1) {
+            cout << "Using Insertion Sort (efficient for sorted input)." << endl;
+            insertionSort(arr);
+        } else {
+            cout << "Is stability required? (1=Yes, 0=No): ";
+            int stable; cin >> stable;
+
+            if(stable) {
+                cout << "Using Merge Sort (stable)." << endl;
+                mergeSort(arr, 0, n-1);
+            } else {
+                cout << "Using Quick Sort (fast)." << endl;
+                quickSort(arr, 0, n-1);
+            }
+        }
     }
 
-    int target, choice2;
-    cout << "Enter target: ";
-    cin >> target;
-    cout << "Enter\n1. Linear Search\n2. Binary Search\nChoice: ";
-    cin >> choice2;
-
-    if (choice2 == 1) linear(arr, size, target);
-    else binary(arr, 0, size - 1, target);
-
+    cout << "Sorted array: ";
+    printArray(arr);
     return 0;
 }
